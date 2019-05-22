@@ -23,6 +23,8 @@ public class Controller implements Initializable {
     @FXML
     AnchorPane AP;
 
+    private String SelectedImagePath;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
@@ -41,20 +43,20 @@ public class Controller implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            String imageFile = selectedFile.toURI().toString();
-            Image image = new Image(imageFile);
-            ImageView iv = new ImageView(image);
+            ImageView iv = new ImageView(new Image(selectedFile.toURI().toString()));
             iv.setFitWidth(400);
             iv.setFitHeight(250);
             iv.setPreserveRatio(true);
             iv.setSmooth(true);
             iv.setCache(false);
+
             AP.getChildren().clear();
             AP.getChildren().add(iv);
 
-            FileAddressField.setText(selectedFile.getAbsolutePath());
+            SelectedImagePath = selectedFile.getAbsolutePath();
 
-            CommandFlow.getChildren().add(new Text(selectedFile.getAbsolutePath() + " has been opened\n"));
+            FileAddressField.setText(SelectedImagePath);
+            CommandFlow.getChildren().add(new Text(SelectedImagePath + " has been opened\n"));
         }
     }
 
@@ -69,12 +71,17 @@ public class Controller implements Initializable {
     }
 
 
-    //  This method can be used outside (in other files) to add text to the CommandFlow (right)
+    //  This method can be used outside (in other files)
+    //  to add text to the CommandFlow (right)
     // clearField == true, CommandFlow we'll be cleared
     public void PutText(String text, boolean clearField) {
         if (clearField)
             CommandFlow.getChildren().clear();
         CommandFlow.getChildren().add(new Text(text));
-
+    }
+    // This method can be used outside (in other files)
+    // Returns path to the opened image
+    public String getSelectedImagePath() {
+        return SelectedImagePath;
     }
 }
