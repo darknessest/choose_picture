@@ -6,6 +6,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
@@ -56,7 +58,8 @@ public class Controller implements Initializable {
             SelectedImagePath = selectedFile.getAbsolutePath();
 
             FileAddressField.setText(SelectedImagePath);
-            CommandFlow.getChildren().add(new Text(SelectedImagePath + " has been opened\n"));
+            PutText(SelectedImagePath + " has been opened\n", false, Color.BLACK, "Menlo", 20);
+//            CommandFlow.getChildren().add(new Text(SelectedImagePath + " has been opened\n"));
         }
     }
 
@@ -74,11 +77,17 @@ public class Controller implements Initializable {
     //  This method can be used outside (in other files)
     //  to add text to the CommandFlow (right)
     // clearField == true, CommandFlow we'll be cleared
-    public void PutText(String text, boolean clearField) {
+    public void PutText(String text, boolean clearField, Color color, String fontName, int size) {
         if (clearField)
             CommandFlow.getChildren().clear();
-        CommandFlow.getChildren().add(new Text(text));
+
+        Text caption = new Text(text);
+        caption.setFont(Font.font (fontName, size));
+        caption.setFill(color);
+
+        CommandFlow.getChildren().add(caption);
     }
+
     // This method can be used outside (in other files)
     // Returns path to the opened image
     public String getSelectedImagePath() {
